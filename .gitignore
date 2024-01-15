@@ -1,0 +1,13 @@
+__pycache__/
+wandb/
+model_mobile.pth
+model_resnet.pth
+docs_work/
+saved_models_classification/
+saved_models_detection/
+saved_models_recognition/
+model_classification.pth
+model_localization.pth
+results/
+/CAVA-2023-TEMA2.zip
+/data.zip
