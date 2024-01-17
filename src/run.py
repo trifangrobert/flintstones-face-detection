@@ -64,7 +64,7 @@ class FaceRecognizer:
     def _sliding_window_proposals(self):
         with open(self.patch_shapes_path, "rb") as f:
             self.patch_shapes = pickle.load(f)
-        self.patch_shapes = self.patch_shapes[:10]
+        self.patch_shapes = self.patch_shapes[:5]
 
         self.model_localize = FaceDetector()
         self.model_localize.load_state_dict(torch.load(self.model_localize_path, map_location=device))
@@ -203,7 +203,8 @@ class FaceRecognizer:
             nn.Linear(num_ftrs, 512),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(512, num_classes)
+            nn.Linear(512, num_classes),
+            nn.Softmax(dim=1),
         )
 
         # self.model_classify = ResNet50(num_classes=5)
@@ -227,8 +228,7 @@ class FaceRecognizer:
             output = self.model_classify(patch)
             output = output.cpu().detach().numpy()
             output = output.squeeze(0)
-            output = output.argmax()
-            actor = self.label_to_actor[output]
+            actor = self.label_to_actor[output.argmax()]
             if actor == "unknown":
                 continue
             self.predictions[actor]["file_names"].append(image_name)

@@ -57,7 +57,7 @@ Note that in the same directory as `run.py` there are the following files:
 
 This is the full command for running the project on task 1 and task 2:
 ```bash
-python3 run.py -d ../../validare/validare/ -p ./patches.pkl -ml ./model_localization.pth -mc ./model_classification.pth -c ./process_config.pkl -s ../evaluare/fisiere_solutie/ -g ../validare/
+python3 run.py -d ../validare/validare/ -p ./patches.pkl -ml ./model_localization.pth -mc ./model_classification.pth -c ./process_config.pkl -s ../evaluare/fisiere_solutie/ -g ../validare/
 ```
 
 This is the full command for running the project on bonus:

@@ -32,7 +32,7 @@ def compute_average_precision(rec, prec):
 def eval_detections(detections, scores, file_names, ground_truth_path):
     ground_truth_file = np.loadtxt(ground_truth_path, dtype='str')
     ground_truth_file_names = np.array(ground_truth_file[:, 0])
-    ground_truth_detections = np.array(ground_truth_file[:, 1:], np.int64)
+    ground_truth_detections = np.array(ground_truth_file[:, 1:], np.int32)
 
     num_gt_detections = len(ground_truth_detections)  # numar total de adevarat pozitive
     gt_exists_detection = np.zeros(num_gt_detections)
@@ -77,17 +77,24 @@ def eval_detections(detections, scores, file_names, ground_truth_path):
     rec = cum_true_positive / num_gt_detections
     prec = cum_true_positive / (cum_true_positive + cum_false_positive)
     average_precision = compute_average_precision(rec, prec)
+
+    print(f"Recall {rec.shape}: {rec}")
+    print(f"Precision {prec.shape}: {prec}")
+    print(f"Average precision: {average_precision}")
+
     plt.plot(rec, prec, '-')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
+    # plt.yticks(np.arange(0, 1.1, step=0.1))
     plt.title('All faces: average precision %.3f' % average_precision)
     plt.savefig('precizie_medie_all_faces.png')
     plt.close()
 
 def eval_detections_character(detections, scores, file_names,ground_truth_path,character):
+    print(f"eval_detections_character: {character}")
     ground_truth_file = np.loadtxt(ground_truth_path, dtype='str')
     ground_truth_file_names = np.array(ground_truth_file[:, 0])
-    ground_truth_detections = np.array(ground_truth_file[:, 1:], np.int64)
+    ground_truth_detections = np.array(ground_truth_file[:, 1:], np.int32)
 
     num_gt_detections = len(ground_truth_detections)  # numar total de adevarat pozitive
     gt_exists_detection = np.zeros(num_gt_detections)
@@ -129,12 +136,21 @@ def eval_detections_character(detections, scores, file_names,ground_truth_path,c
     cum_false_positive = np.cumsum(false_positive)
     cum_true_positive = np.cumsum(true_positive)
 
+    print(f"cum_false_positive {cum_false_positive.shape}: {cum_false_positive}")
+    print(f"cum_true_positive {cum_true_positive.shape}: {cum_true_positive}")
+
     rec = cum_true_positive / num_gt_detections
     prec = cum_true_positive / (cum_true_positive + cum_false_positive)
     average_precision = compute_average_precision(rec, prec)
+
+    print(f"Recall {rec.shape}: {rec}")
+    print(f"Precision {prec.shape}: {prec}")
+    print(f"Average precision: {average_precision}")
+
     plt.plot(rec, prec, '-')
     plt.xlabel('Recall')
     plt.ylabel('Precision')
+    # plt.yticks(np.arange(0, 1.1, step=0.1))
     plt.title(character + ' faces: average precision %.3f' % average_precision)
     plt.savefig('precizie_medie_' + character + '.png')
     plt.close()
