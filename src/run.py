@@ -64,7 +64,7 @@ class FaceRecognizer:
     def _sliding_window_proposals(self):
         with open(self.patch_shapes_path, "rb") as f:
             self.patch_shapes = pickle.load(f)
-        self.patch_shapes = self.patch_shapes[:5]
+        self.patch_shapes = self.patch_shapes[:10]
 
         self.model_localize = FaceDetector()
         self.model_localize.load_state_dict(torch.load(self.model_localize_path, map_location=device))
